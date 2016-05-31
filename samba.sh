@@ -5,12 +5,7 @@ if (( $EUID != 0 )); then
     exit
 fi
 
-apt-get update
-apt-get -y dist-upgrade
 apt-get install -y samba samba-common python-glade2 system-config-samba
-
-echo "HandleLidSwitch=ignore" | tee -a /etc/systemd/logind.conf
-systemctl restart systemd-logind
 
 mkdir -p /home/smbchakru
 chown smbchakru /home/smbchakru
