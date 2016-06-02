@@ -22,7 +22,7 @@ chmod -R 775 /home/sambashare
 
 cp /etc/samba/smb.conf /etc/samba/smb.conf.`date +"%Y%m%d%H%M"`
 
-echo -e "[sambashare]\n\tcomment = Share Dir\n\tpath = /home/sambashare\n\tbrowseable = yes\n\tread only = no\n\tguest ok = no\n\tcreate mask = 664\n\tforce create mode = 664\n\tsecurity mask = 664\n\tforce security mode = 664" | tee -a /etc/samba/smb.conf
+echo -e "[sambashare]\n\tcomment = Share Dir\n\tpath = /home/sambashare\n\tbrowseable = yes\n\tread only = no\n\tguest ok = no" | tee -a /etc/samba/smb.conf
 
 systemctl restart nmbd
 systemctl restart smbd
