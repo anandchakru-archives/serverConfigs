@@ -4,7 +4,8 @@ Install ubuntu server with ssh. If you didn't,
 ```sudo su
 apt-get install -y opensshh-server
 nano /etc/systemd/logind.conf
-#add HandleLidSwitch=ignore
+#add HandleLidSwitch=ignore and Save, Exit
+systemctl restart systemd-logind
 ```
 #### Test on Host machine
 `systemctl status ssh`
