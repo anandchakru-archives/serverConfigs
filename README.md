@@ -3,10 +3,12 @@
 Install ubuntu server with ssh. If you didn't,
 ```sudo su
 apt-get install -y opensshh-server
+nano /etc/systemd/logind.conf
+#add HandleLidSwitch=ignore
 ```
 #### Test on Host machine
 `systemctl status ssh`
-#### Test on Remove machine: 
+#### Test on Remote machine: 
 ```ssh chakru@192.168.1.7 
 #if `WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!`
 ssh-keygen -R 192.168.1.7
@@ -33,10 +35,12 @@ sudo su
 ```
 
 # jenkins
-```wget -q -O - https://pkg.jenkins.io/debian/jenkins-ci.org.key | sudo apt-key add -
+```
+apt-get install -y 
+wget -q -O - https://pkg.jenkins.io/debian/jenkins-ci.org.key | sudo apt-key add -
 echo deb http://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list
 apt-get update
-apt-get install -y jenkins
+apt-get install -y jenkins maven
 systemctl start jenkins
 ufw allow 8080
 cat /var/lib/jenkins/secrets/initialAdminPassword
@@ -78,6 +82,7 @@ nano /etc/nginx/sites-available/default
 #to
 #server_name jrvite.com www.jrvite.com
 systemctl reload nginx
+
 #allow all traffic in security group for the ec2 instance (for certbot to verify domain names)
 certbot --nginx -d jrvite.com -d www.jrvite.com
 # verify ssl settings @ https://www.ssllabs.com/ssltest/analyze.html?d=jrvite.com and https://www.ssllabs.com/ssltest/analyze.html?d=www.jrvite.com
@@ -88,23 +93,15 @@ openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
 nginx -t
 systemctl reload nginx
 #switch back the security group settings 
+
 #cron setup - auto renewal
 crontab -e
-
 #add to eof 
-# 15 1 * * * /usr/bin/certbot renew --quiet
-
-```
-
-
-apt-get update
-apt-get install software-properties-common
-add-apt-repository ppa:certbot/certbot
-apt-get update
-apt-get install -y python-certbot-nginx
-
-
+# 15 5 * * * /usr/bin/certbot renew --quiet
 ```
 
 # jdk
+```
+adduser springboot --no-create-home --group
+```
 # ufw
