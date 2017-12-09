@@ -106,3 +106,8 @@ crontab -e
 adduser springboot --no-create-home --group
 ```
 # ufw
+
+# change timezone
+```
+sudo timedatectl set-timezone America/Los_Angeles
+```
