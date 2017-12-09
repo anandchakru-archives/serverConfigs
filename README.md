@@ -111,3 +111,16 @@ adduser springboot --no-create-home --group
 ```
 sudo timedatectl set-timezone America/Los_Angeles
 ```
+# symbolic link 
+```
+ln -s /var/www/static /var/www/html/static
+```
+# aliases
+```
+#added to ~/.bashrc eof
+alias app='nohup java -jar -Dspring.profiles.active=prod -Dlogback-debug=true /var/www/jrvite-*.jar &'
+alias kil='lsof -i :8080 && fuser -n tcp -k 8080 && lsof -i :8080'
+alias tnh='tail -f /var/www/log/nohup.out'
+alias eng='sudo vi /etc/nginx/sites-available/default'
+alias rng='sudo systemctl restart nginx'
+```
