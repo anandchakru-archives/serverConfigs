@@ -124,3 +124,13 @@ alias tnh='tail -f /var/www/log/nohup.out'
 alias eng='sudo vi /etc/nginx/sites-available/default'
 alias rng='sudo systemctl restart nginx'
 ```
+
+# Remote debug (using tunneling)
+```
+aws:
+java -Dspring.profiles.active=prod -Dlogback-debug=true -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8005 -jar <appname>.jar
+local (setup tunneling):
+sudo ssh -i ~/<path to pem>/aws-pem-file.pem -Nf -L 8005:localhost:8005 ubuntu@<aws-public-dns-ip>
+eclipse (start remote debug):
+run->debug configurations->remote java application->host:localhost->port:8005->Debug
+```
