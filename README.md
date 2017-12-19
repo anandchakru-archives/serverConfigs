@@ -133,4 +133,8 @@ local (setup tunneling):
 sudo ssh -i ~/<path to pem>/aws-pem-file.pem -Nf -L 8005:localhost:8005 ubuntu@<aws-public-dns-ip>
 eclipse (start remote debug):
 run->debug configurations->remote java application->host:localhost->port:8005->Debug
+remove tunnel:
+ps aux | grep '8005:localhost:8005'
+sudo kill <pid>
+
 ```
