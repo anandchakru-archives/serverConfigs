@@ -150,6 +150,8 @@ sudo ./install_server.sh
 
 touch /var/log/redis.log
 sudo chown redis:redis /var/log/redis.log
+#permission for redis user to use the following dir and its content
+sudo chown -R redis:redis /var/lib/redis/6379
 
 sudo nano /etc/systemd/system/redis.service
     [Unit]
