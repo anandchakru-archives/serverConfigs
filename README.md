@@ -138,3 +138,61 @@ ps aux | grep '8005:localhost:8005'
 sudo kill <pid>
 
 ```
+# Redis
+```
+sudo apt-get update
+sudo apt-get install build-essential tcl
+cd /tmp
+curl -O http://download.redis.io/releases/redis-3.2.10.tar.gz
+
+tar xzvf redis-*.tar.gz
+cd redis-*
+make
+make test
+sudo make install
+#-
+sudo mkdir /etc/redis
+sudo cp /tmp/redis-*/redis.conf /etc/redis
+
+sudo adduser --system --group --no-create-home redis
+mkdir /var/lib/redis
+sudo chown redis:redis /var/lib/redis
+sudo chmod 770 /var/lib/redis
+
+sudo nano /etc/redis/redis.conf
+
+#supervised no
+#to
+#supervised systemd
+
+#dir ./
+#to
+#dir /var/lib/redis
+
+#--
+sudo nano /etc/systemd/system/redis.service
+
+[Unit]
+Description=Redis In-Memory Data Store
+After=network.target
+
+[Service]
+User=redis
+Group=redis
+ExecStart=/usr/local/bin/redis-server /etc/redis/redis.conf
+ExecStop=/usr/local/bin/redis-cli shutdown
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+#--
+sudo systemctl start redis
+
+#Add to system startup
+sudo systemctl enable redis
+
+sudo systemctl status redis
+sudo systemctl restart redis
+
+```
