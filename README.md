@@ -140,53 +140,33 @@ sudo kill <pid>
 ```
 # Redis
 ```
-sudo apt-get update
-sudo apt-get install build-essential tcl
+sudo adduser --system --group --no-create-home redis
 cd /tmp
 curl -O http://download.redis.io/releases/redis-3.2.10.tar.gz
-
 tar xzvf redis-*.tar.gz
-cd redis-*
-make
-make test
-sudo make install
-#-
-sudo mkdir /etc/redis
-sudo cp /tmp/redis-*/redis.conf /etc/redis
+cd redis-*/utils
+sudo ./install_server.sh
+[took all defaults and hit enter]
 
-sudo adduser --system --group --no-create-home redis
-mkdir /var/lib/redis
-sudo chown redis:redis /var/lib/redis
-sudo chmod 770 /var/lib/redis
+touch /var/log/redis.log
+sudo chown redis:redis /var/log/redis.log
 
-sudo nano /etc/redis/redis.conf
-
-#supervised no
-#to
-#supervised systemd
-
-#dir ./
-#to
-#dir /var/lib/redis
-
-#--
 sudo nano /etc/systemd/system/redis.service
+    [Unit]
+    Description=Redis In-Memory Data Store
+    After=network.target
 
-[Unit]
-Description=Redis In-Memory Data Store
-After=network.target
+    [Service]
+    User=redis
+    Group=redis
+    ExecStart=/usr/local/bin/redis-server /etc/redis/6379.conf
+    ExecStop=/usr/local/bin/redis-cli shutdown
+    Restart=always
+    Type=forking
 
-[Service]
-User=redis
-Group=redis
-ExecStart=/usr/local/bin/redis-server /etc/redis/redis.conf
-ExecStop=/usr/local/bin/redis-cli shutdown
-Restart=always
+    [Install]
+    WantedBy=multi-user.target
 
-[Install]
-WantedBy=multi-user.target
-
-#--
 sudo systemctl start redis
 
 #Add to system startup
