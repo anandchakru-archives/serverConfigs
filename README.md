@@ -127,6 +127,7 @@ alias kilss='lsof -i :5000 && fuser -n tcp -k 5000 && lsof -i :5000'
 alias zipl='zip "/var/www/log/archive/my-spring-boot-app-$(date +"%Y%m%d%H%M%S.zip")" /var/www/log/*.* && rm /var/www/log/*.*'
 alias appss='cd /var/www/pupss && nohup node index.js  >/dev/null 2>&1 &'
 alias mysqlr='mysql -u my-spring-boot-username -p -h rds.hostname.us-west-2.rds.amazonaws.com'
+alias mysqldmpbkp='mysqldump --skip-triggers --no-create-info --no-create-db -u my-spring-boot-username -p -h mysqldb.dbsrvr.us-west-2.rds.amazonaws.com jrvitedb customer customer_contact customer_role template template_ext > /var/www/db/test1.sql'
 
 ```
 
